@@ -1,0 +1,79 @@
+﻿@model System.Collections.Generic.List<Banking_Site_Assignment_2.Models.Installment_Form>
+
+@{
+    ViewBag.Title = "ViewInstallment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View Installment</h2>
+
+<table class="table">
+    <tr>
+        <th>
+           Full Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Date Of Birth
+        </th>
+        <th>
+            Age
+        </th>
+        <th>
+           Phone No
+        </th>
+        <th>
+            Salary
+        </th>
+        <th>
+            Dependencies
+        </th>
+        <th>
+            Permonth Installment
+        </th>
+        <th>
+            Inerest Rate
+        </th>
+        <th>
+            NoOfYear
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DOB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Salary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dependencies)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PermonthInstallment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InerestRae)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfYear)
+        </td>
+    </tr>
+}
+
+</table>

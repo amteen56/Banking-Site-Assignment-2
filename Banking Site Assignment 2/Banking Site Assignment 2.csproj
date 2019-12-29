@@ -170,6 +170,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Signin.cshtml" />
     <Content Include="Views\Account\CreateInstallment.cshtml" />
+    <Content Include="Views\Account\ViewInstallment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace Banking_Site_Assignment_2.Util
@@ -37,7 +39,33 @@ namespace Banking_Site_Assignment_2.Util
                 }
             }
         }
+        public static List<ModelClass> GetList<ModelClass>(string sql, params object[] list)
+        {
+            return GetTable(sql, list).ToStatic<ModelClass>();
+        }
 
+        private static List<DTO> ToStatic<DTO>(this DataTable dt)
+        {
+            var list = new List<DTO>();
+            foreach (DataRow row in dt.Rows)
+            {
+                DTO obj = (DTO)Activator.CreateInstance(typeof(DTO));
+                foreach (DataColumn column in dt.Columns)
+                {
+                    PropertyInfo Prop = obj.GetType().GetProperty(column.ColumnName, BindingFlags.Public | BindingFlags.Instance);
+                    if (row[column] == DBNull.Value)
+                        Prop?.SetValue(obj, null);
+                    else
+                    {
+                        //Debug.WriteLine(row[column].GetType() + " " + Prop?.PropertyType); 
+                        if (row[column].GetType() == Prop?.PropertyType)
+                            Prop?.SetValue(obj, row[column]);
+                    }
+                }
+                list.Add(obj);
+            }
+            return list;
+        }
         public static int ExecSQL(string sql, params object[] list)
         {
             for (int i = 0; i < list.Length; i++)

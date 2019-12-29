@@ -25,7 +25,12 @@ namespace Banking_Site_Assignment_2.Controllers
         {
             return View();
         }
-        //CreaeIns
+        public ActionResult ViewInstallment()
+        {
+            List<Installment_Form> ds = DButil.GetList<Installment_Form>("SELECT * FROM [Installment]");
+            return View(ds);
+        }
+        //
         public ActionResult CreateInstallment()
         {
             var ds = DButil.GetTable("SELECT * FROM [User] WHERE UserID = '{0}'", userid);
@@ -58,7 +63,34 @@ namespace Banking_Site_Assignment_2.Controllers
                 return RedirectToAction("CreateInstallment");
             }
         }
-        [HttpPost]
+             [HttpPost]
+        public ActionResult CreaeIns(Installment_Form ins, FormCollection form)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "warning";
+                return View("CreateInstallment");
+            }
+            else
+            {
+                string insert =
+                   @"INSERT INTO [Installment](FullName, Email,DOB,Age,ContactNo,Salary,Dependencies,PermonthInstallment,InerestRae,NoOfYear) VALUES
+                 ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}',{7},{8},{9})";
+                if (DButil.ExecSQL(insert, ins.FullName, ins.Email, ins.DOB, ins.age, ins.ContactNo,ins.Salary,ins.Dependencies,ins.PermonthInstallment,ins.InerestRae,ins.NoOfYear) == 1)
+                {
+                    ViewData["Message"] = "Installment Successfully Registered";
+                    ViewData["MsgType"] = "success";
+                }
+                else
+                {
+                    ViewData["Message"] = DButil.DB_Message;
+                    ViewData["MsgType"] = "danger";
+                }
+                return View("CreateInstallment");
+            }
+        }
+      
         public ActionResult Create(User usr,FormCollection form)
         {
             if (!ModelState.IsValid)
